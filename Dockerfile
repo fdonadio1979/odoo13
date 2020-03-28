@@ -57,7 +57,6 @@ RUN apt-get -qq update \
         vim \
         zlibc \
         sudo \
-        python-m2crypto \
     && echo 'deb http://apt.postgresql.org/pub/repos/apt/ stretch-pgdg main' >> /etc/apt/sources.list.d/postgresql.list \
     && curl -SL https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - \
     && apt-get update \
@@ -128,7 +127,6 @@ ENV OPENERP_SERVER=$CONFIG_DIR/odoo.conf
 ENV ODOO_RC=$OPENERP_SERVER
 
 RUN mkdir -p $SOURCES/repositories && \
-    mkdir -p $SOURCES/extra-addons && \
     mkdir -p $CUSTOM/repositories && \
     mkdir -p $DATA_DIR && \
     mkdir -p $CONFIG_DIR && \
@@ -177,11 +175,10 @@ RUN pip install --user --no-cache-dir $SOURCES/odoo
 #   Odoo Enterprise
 #
 
-#FROM odoo AS enterprise
-#ARG GITHUB_USER
-#ARG GITHUB_TOKEN
-#ENV GITHUB_USER="$GITHUB_USER"
-#ENV GITHUB_TOKEN="$GITHUB_TOKEN"
-#COPY odoo-e.yml $RESOURCES/
-#RUN autoaggregate --config "$RESOURCES/odoo-e.yml" --install --output $SOURCES
-
+FROM odoo AS enterprise
+ARG GITHUB_USER
+ARG GITHUB_TOKEN
+ENV GITHUB_USER="$GITHUB_USER"
+ENV GITHUB_TOKEN="$GITHUB_TOKEN"
+COPY odoo-e.yml $RESOURCES/
+RUN autoaggregate --config "$RESOURCES/odoo-e.yml" --install --output $SOURCES
