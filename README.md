@@ -62,6 +62,13 @@ cd /home/odoo/src/repositories/odoo-argentina
 sudo pip install -r requirements.txt
 
 
+chown -R odoo:odoo /usr/local/lib/python3.7/site-packages/httplib*
+
+chown -R odoo:odoo /usr/local/lib/python3.7/site-packages/pysimplesoap/
+
+chown -R odoo:odoo /usr/local/lib/python3.7/site-packages/pyafipws
+
+
 exit
 
 
