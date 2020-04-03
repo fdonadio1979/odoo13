@@ -16,32 +16,28 @@ cd ../odoo13/
 
 sudo docker-compose up -d
 
+
+
 Bueno, el primer paso es tener instalado Odoo e instalar el módulo account (el módulo de contabilidad) junto con el módulo l10n_ar. Esto instala la localizcaión argentina que viene por defecto en Odoo. Luego tienen (en ajustes de la contabilidad) seleccionar el plan contable de responsables inscritos en Argentina. Habiendo hecho esto, uno puede configurar los datos de la empresa.
 
 
 sudo docker exec -it -u 0 odoo13_web_1 bash
 
-cd /home/odoo/src/repositories
-
-git clone git clone https://github.com/ctmil/odoo-argentina -b 13.0
-
-
-sudo apt-get install libssl-dev swig python3-dev gcc
-
-sudo pip install m2crypto
-
-
-sudo apt-get install make
-
+cd /usr/local/lib/python3.7/site-packages/
 
 sudo apt-get remove openssl
 
+sudo apt-get update
 
-wget https://www.openssl.org/source/openssl-1.1.0e.tar.gz
+sudo apt-get install make
 
-tar xzvf openssl-1.1.0e.tar.gz
+sudo apt-get install gcc
 
-cd openssl-1.1.0e
+wget https://www.openssl.org/source/old/1.1.0/openssl-1.1.0l.tar.gz
+
+tar xzvf openssl-1.1.0l.tar.gz
+
+cd openssl-1.1.0l
 
 ./config -Wl,--enable-new-dtags,-rpath,'$(LIBRPATH)'
 
@@ -49,13 +45,20 @@ make
 
 sudo make install
 
+docker restart odoo13_web_1
 
 To verify it is working:
 
 openssl version
 
-  OpenSSL 1.1.0  25 Aug 2016
-  
+  OpenSSL 1.1.0l  10 Sep 2019
+
+
+cd /home/odoo/src/repositories
+
+git clone git clone https://github.com/ctmil/odoo-argentina -b 13.0
+
+sudo apt-get install python-m2crypto
 
 cd /home/odoo/src/repositories/odoo-argentina
 
