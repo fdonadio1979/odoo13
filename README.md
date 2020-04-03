@@ -80,6 +80,10 @@ sudo docker restart odoo13_web_1
 
 sudo docker exec -it -u 0 odoo13_web_1 bash
 
+A revisar:
+wget https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/0.12.5/wkhtmltox_0.12.5-1.stretch_amd64.deb             
+
+sudo dpkg -i wkhtmltox_0.12.5-1.stretch_amd64.deb
 
 
 Si hicieron esto exitosamente, el paso siguiente es en Odoo actualizar la lista de módulos; e instalar los siguientes módulos: account_payment_group, account_check y l10n_ar_afipws_fe. Esto instala las funcionalidades de recibos, cheques y factura electrónica. 
@@ -98,3 +102,5 @@ https://forums.servethehome.com/index.php?resources/installing-openssl-1-1-0-on-
 The problem was caused by openssl versions
 
 https://stackoverflow.com/questions/58011032/docker-python-requests-results-in-dh-key-too-small-error
+
+https://www.osradar.com/how-to-install-wkhtmltopdf-and-wkhtmltoimage-on-ubuntu-19-04-debian-10/
