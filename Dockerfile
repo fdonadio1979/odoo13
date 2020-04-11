@@ -162,6 +162,22 @@ USER odoo
 # HACK Special case for Werkzeug
 RUN pip install --user Werkzeug==0.14.1
 
+
+RUN apt-get update
+RUN apt-get -y remove openssl
+RUN apt-get -y install gcc
+RUN apt-get -y install make
+RUN DEBIAN_FRONTEND=noninteractive apt-get -q update && apt-get -qy install wget make \
+    && wget https://www.openssl.org/source/old/1.1.0/openssl-1.1.0l.tar.gz \
+    && tar xzvf openssl-1.1.0l.tar.gz \
+    && cd openssl-1.1.0l \
+    && ./config -Wl,--enable-new-dtags,-rpath,'$(LIBRPATH)' \
+    && make install \
+    && ln -sf /usr/local/ssl/bin/openssl 'which openssl'
+
+RUN apt-get -y install python-m2crypto
+
+
 #
 #   Odoo
 #
