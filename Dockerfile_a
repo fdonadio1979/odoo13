@@ -65,22 +65,6 @@ RUN apt-get -qq update \
     && sync
 
 
-RUN apt-get -qq update
-RUN apt-get -y remove openssl
-RUN apt-get -y install gcc
-RUN apt-get -y install make
-RUN DEBIAN_FRONTEND=noninteractive apt-get -q update && apt-get -qy install wget make \
-    && wget https://www.openssl.org/source/old/1.1.0/openssl-1.1.0l.tar.gz \
-    && tar xzvf openssl-1.1.0l.tar.gz \
-    && cd openssl-1.1.0l \
-    && ./config -Wl,--enable-new-dtags,-rpath,'$(LIBRPATH)' \
-    && make install \
-    && ln -sf /usr/local/ssl/bin/openssl 'which openssl'
-
-RUN apt-get -y install python-m2crypto
-
-
-
 ARG ODOO_SOURCE=odoo/odoo
 ARG ODOO_VERSION=13.0
 ENV ODOO_VERSION="$ODOO_VERSION"
@@ -120,6 +104,23 @@ RUN build_deps=" \
     && apt-get purge -yqq $build_deps \
     && apt-get autopurge -yqq \
     && rm -Rf /var/lib/apt/lists/* /tmp/*
+
+# Older OpenSSL version and others
+
+RUN apt-get -qq update
+RUN apt-get -y remove openssl
+RUN apt-get -y install gcc
+RUN apt-get -y install make
+RUN DEBIAN_FRONTEND=noninteractive apt-get -q update && apt-get -qy install wget make \
+    && wget https://www.openssl.org/source/old/1.1.0/openssl-1.1.0l.tar.gz \
+    && tar xzvf openssl-1.1.0l.tar.gz \
+    && cd openssl-1.1.0l \
+    && ./config -Wl,--enable-new-dtags,-rpath,'$(LIBRPATH)' \
+    && make install \
+    && ln -sf /usr/local/ssl/bin/openssl 'which openssl'
+
+RUN apt-get -y install python-m2crypto
+
 
 # Metadata
 ARG VCS_REF
