@@ -37,9 +37,16 @@ ARG WKHTMLTOPDF_CHECKSUM='1140b0ab02aa6e17346af2f14ed0de807376de475ba90e1db3975f
 RUN apt-get -qq update \
     && apt-get install -yqq --no-install-recommends \
         curl \
-    && curl -SLo wkhtmltox.deb https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/${WKHTMLTOPDF_VERSION}/wkhtmltox_${WKHTMLTOPDF_VERSION}-1.stretch_amd64.deb \
-    && echo "${WKHTMLTOPDF_CHECKSUM}  wkhtmltox.deb" | sha256sum -c - \
-    && apt-get install -yqq --no-install-recommends \
+#    && curl -SLo wkhtmltox.deb https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/${WKHTMLTOPDF_VERSION}/wkhtmltox_${WKHTMLTOPDF_VERSION}-1.stretch_amd64.deb \
+#    && echo "${WKHTMLTOPDF_CHECKSUM}  wkhtmltox.deb" | sha256sum -c - \
+#    && apt-get install -yqq --no-install-recommends \
+
+    && curl -o wkhtmltox.deb -sSL https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/0.12.5/wkhtmltox_0.12.5-1.stretch_amd64.deb \
+    && echo '7e35a63f9db14f93ec7feeb0fce76b30c08f2057 wkhtmltox.deb' | sha1sum -c - \
+    && apt-get install -y --no-install-recommends ./wkhtmltox.deb \
+    && rm -rf /var/lib/apt/lists/* wkhtmltox.deb    
+    
+    
         ./wkhtmltox.deb \
         chromium \
         ffmpeg \
@@ -121,10 +128,6 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get -q update && apt-get -qy install wget
     && ln -sf /usr/local/ssl/bin/openssl 'which openssl'
 
 RUN apt-get -y install python-m2crypto
-
-RUN wget https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/0.12.5/wkhtmltox_0.12.5-1.stretch_amd64.deb 
-RUN dpkg -i wkhtmltox_0.12.5-1.stretch_amd64.deb
-RUN apt -f install
 
 
 # Metadata
