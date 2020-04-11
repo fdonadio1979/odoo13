@@ -179,13 +179,13 @@ USER odoo
 # HACK Special case for Werkzeug
 RUN pip install --user Werkzeug==0.14.1
 
+
 #
 #   Odoo
 #
 
 FROM base AS odoo
-COPY odoo.yml $RESOURCES/
-RUN autoaggregate --config "$RESOURCES/odoo.yml" --install --output $SOURCES
+RUN git clone --single-branch --depth 1 --branch $ODOO_VERSION https://github.com/$ODOO_SOURCE $SOURCES/odoo
 RUN pip install --user --no-cache-dir $SOURCES/odoo
 
 #
