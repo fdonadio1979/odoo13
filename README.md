@@ -104,3 +104,53 @@ The problem was caused by openssl versions
 https://stackoverflow.com/questions/58011032/docker-python-requests-results-in-dh-key-too-small-error
 
 https://www.osradar.com/how-to-install-wkhtmltopdf-and-wkhtmltoimage-on-ubuntu-19-04-debian-10/
+
+
+# odoo12
+
+docker exec -it -u 0 odoo12a_web_1 bash
+
+git clone https://github.com/ingadhoc/odoo-argentina.git -b 12.0
+
+cd odoo-argentina/
+
+vi requirements.txt (Comment M2-crypto line)
+
+sudo pip install -r requirements.txt
+
+cd /usr/local/lib/python3.5/site-packages/
+
+chown -R odoo:odoo .
+
+cd /home/odoo/src/repositories
+
+git clone https://github.com/OCA/partner-contact.git -b 12.0
+
+git clone https://github.com/ingadhoc/account-financial-tools.git -b 12.0
+
+git clone https://github.com/ingadhoc/account-payment.git -b 12.0
+
+git clone https://github.com/ingadhoc/aeroo_reports.git -b 12.0
+
+git clone https://github.com/fdonadio1979/account_document.git
+
+Crtl D
+
+docker restart odoo12a_web_1 
+
+Instalar modulo l10n_ar
+
+Plan Contable Responsable inscripto
+
+cd aeroo_reports
+
+sudo pip install -r requirements.txt
+
+git clone https://github.com/ingadhoc/reporting-engine.git -b 12.0
+
+git clone https://github.com/ingadhoc/argentina-sale.git -b 12.0 
+
+git clone https://github.com/ingadhoc/argentina-reporting.git -b 12.0 
+
+ instalar el módulo account_debt_management
+
