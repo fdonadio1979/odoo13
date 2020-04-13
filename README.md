@@ -122,6 +122,15 @@ cd /usr/local/lib/python3.5/site-packages/
 
 chown -R odoo:odoo .
 
+sudo apt update
+
+
+wget https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/0.12.5/wkhtmltox_0.12.5-1.stretch_amd64.deb
+
+sudo dpkg -i wkhtmltox_0.12.5-1.stretch_amd64.deb
+
+sudo apt -f install
+
 cd /home/odoo/src/repositories
 
 git clone https://github.com/OCA/partner-contact.git -b 12.0
